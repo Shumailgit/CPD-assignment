@@ -1,4 +1,5 @@
 import 'package:assignment/api/constants.dart';
+import 'package:assignment/screens/details.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -27,19 +28,33 @@ final AsyncSnapshot snapshot;
       ),
       itemBuilder: (context,itemIndex,pageViewIndex){
         
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: SizedBox(
-          height: 305,
-          width: 200,
-          child:Image.network(
-            filterQuality: FilterQuality.high,
-            fit: BoxFit.cover,
-          '${Constant.imagePath}${snapshot.data![itemIndex].posterPath}'
+        return GestureDetector(
+          onTap: () {
+             Navigator.push(context, MaterialPageRoute(builder: 
+            (context)=>DetailsScreen(
+            movie: snapshot.data[itemIndex],
+            
+            ),
+            ),
+            
+            );
 
-          ),
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: SizedBox(
+            height: 305,
+            width: 200,
+            child:Image.network(
+              filterQuality: FilterQuality.high,
+              fit: BoxFit.cover,
+            '${Constant.imagePath}${snapshot.data![itemIndex].posterPath}'
+        
+            ),
+            ),
           ),
         );
+        
       },
         
       )

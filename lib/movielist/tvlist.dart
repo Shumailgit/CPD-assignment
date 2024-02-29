@@ -1,11 +1,9 @@
 import 'package:assignment/api/constants.dart';
-import 'package:assignment/screens/details.dart';
-
+import 'package:assignment/screens/details2.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
-class NewMoviesSlider extends StatelessWidget {
-  const NewMoviesSlider({
+class TvSlider extends StatelessWidget {
+  const TvSlider({
     super.key, required this.snapshot,
   });
 final AsyncSnapshot snapshot;
@@ -31,8 +29,8 @@ final AsyncSnapshot snapshot;
         return GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: 
-            (context)=>DetailsScreen(
-            movie: snapshot.data[itemIndex],
+            (context)=>DetailsScreen2(
+            tv: snapshot.data[itemIndex],
             ),
             ),
             );
