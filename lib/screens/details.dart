@@ -2,7 +2,7 @@ import 'package:assignment/api/constants.dart';
 import 'package:assignment/models/Movie.dart';
 import 'package:flutter/material.dart';
 class DetailsScreen extends StatelessWidget{
-const DetailsScreen({
+const DetailsScreen( {
   super.key,
   required this.movie, 
   

@@ -53,8 +53,12 @@ void initState(){
         
         ),
         centerTitle: true,
-        
+         bottom: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: SearchBar(),
+        ),
       ),
+      
       body:SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child:Padding(
