@@ -1,11 +1,18 @@
 
+import 'package:assignment/firebase_options.dart';
 import 'package:assignment/screens/homepage.dart';
 import 'package:assignment/screens/signin.dart';
 import 'package:assignment/screens/signup.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 
-void main() {
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+ await Firebase.initializeApp(
+   options: DefaultFirebaseOptions.currentPlatform,
+ );
+
   runApp(const MyApp());
 }
 
@@ -22,18 +29,14 @@ class MyApp extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
              title: Text('Moviez'),
-            bottom: TabBar(
-              tabs: [
-                Tab(text: 'Login'),
-                Tab(text: 'SignUp'),
-              ],
-            ),
+           
           ),
            body: TabBarView(
             children: [
               Login(),
               Signup(),
               Homepage(),
+                 
 
     ],
           ),

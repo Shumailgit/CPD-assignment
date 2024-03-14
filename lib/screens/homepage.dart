@@ -7,6 +7,9 @@ import 'package:assignment/models/TV.dart';
 import 'package:assignment/movielist/Lists.dart';
 import 'package:assignment/movielist/trending.dart';
 import 'package:assignment/movielist/tvlist.dart';
+import 'package:assignment/screens/watched.dart';
+
+import 'package:assignment/screens/watchlist.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -43,7 +46,7 @@ void initState(){
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 99, 170, 102),
       appBar: AppBar(
-      backgroundColor:  const Color.fromARGB(255, 219, 23, 23),
+      backgroundColor:  Color.fromARGB(255, 23, 219, 23),
 
         elevation:0,
         title: Image.asset('web/assets/moviez.jpg',
@@ -57,6 +60,26 @@ void initState(){
           preferredSize: Size.fromHeight(70),
           child: SearchBar(),
         ),
+        actions: [
+          IconButton(
+             icon: Icon(Icons.playlist_play),
+             onPressed: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=>WatchlistScreen())
+                );
+             },
+             ),
+             IconButton(
+               icon: Icon(Icons.playlist_add_check),
+               onPressed: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=>WatchedScreen())
+                 );
+               },
+               )
+        ],
       ),
       
       body:SingleChildScrollView(
@@ -87,6 +110,7 @@ void initState(){
                         }else{
                           return const Center(child: CircularProgressIndicator());
                         }
+                        
                       },
                     ),
 

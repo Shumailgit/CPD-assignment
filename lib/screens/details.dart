@@ -1,5 +1,9 @@
 import 'package:assignment/api/constants.dart';
 import 'package:assignment/models/Movie.dart';
+import 'package:assignment/models/addtowatchlist.dart';
+import 'package:assignment/screens/watched.dart';
+
+import 'package:assignment/screens/watchlist.dart';
 import 'package:flutter/material.dart';
 class DetailsScreen extends StatelessWidget{
 const DetailsScreen( {
@@ -30,6 +34,7 @@ Widget build(BuildContext context){
                 Icons.arrow_back,
               ),
             )
+            
           ),
           backgroundColor: Colors.blue,
           expandedHeight: 500,
@@ -137,6 +142,28 @@ Widget build(BuildContext context){
                         ],
                       ),
                     ),
+                    IconButton( 
+                      icon: Icon(Icons.bookmark),
+                      tooltip: "add to watchlist",
+                      color: Colors.red,
+                      onPressed: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>WatchlistScreen())
+                        
+                );
+                      },
+
+                      ),
+                      IconButton(
+                         icon: Icon(Icons.check),
+                          onPressed: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>WatchedScreen())
+                );
+                      },
+                         )
                   ],
 
                   ),

@@ -6,7 +6,7 @@ import 'package:assignment/models/Movie.dart';
 import 'package:assignment/models/TV.dart';
 import 'package:http/http.dart' as http;
 class API{
-  var paramstring;
+
   static const _NewReleasesUrl='https://api.themoviedb.org/3/movie/now_playing?api_key=${Constant.apiKey}';
   static const _topGrossingUrl='https://api.themoviedb.org/3/movie/top_rated?api_key=${Constant.apiKey}';
   static const _TVUrl='https://api.themoviedb.org/3/tv/airing_today?api_key=${Constant.apiKey}';
