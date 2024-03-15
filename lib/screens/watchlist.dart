@@ -11,7 +11,7 @@ class WatchlistScreen extends StatefulWidget {
 
 class _WatchlistScreenState extends State<WatchlistScreen> {
   late SharedPreferences _prefs;
-  List<Movie> _watchlistMovies = [];
+  late List<Movie> _watchlistMovies;
 
   @override
   void initState() {
@@ -21,14 +21,19 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
   Future<void> _initializeSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
+    _loadWatchlistMovies();
+  }
+
+  Future<void> _loadWatchlistMovies() async {
     final watchlistData = _prefs.getString('watchlist');
+    List<Movie> watchlistMovies = [];
     if (watchlistData != null) {
       final List<dynamic> watchlistJson = jsonDecode(watchlistData);
-      setState(() {
-        _watchlistMovies =
-            watchlistJson.map((e) => Movie.fromJson(e)).toList();
-      });
+      watchlistMovies = watchlistJson.map((e) => Movie.fromJson(e)).toList();
     }
+    setState(() {
+      _watchlistMovies = watchlistMovies;
+    });
   }
 
   @override
