@@ -1,16 +1,21 @@
+import 'dart:convert';
+
 import 'package:assignment/api/constants.dart';
 import 'package:assignment/models/Movie.dart';
-import 'package:assignment/models/addtowatchlist.dart';
-import 'package:assignment/screens/watched.dart';
 
+import 'package:assignment/movielist/trending.dart';
+import 'package:assignment/screens/watched.dart';
 import 'package:assignment/screens/watchlist.dart';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class DetailsScreen extends StatelessWidget{
 const DetailsScreen( {
-  super.key,
+  Key?key,
+  
   required this.movie, 
   
-  });
+  }):super(key:key);
   final Movie movie;
   
 @override
@@ -147,21 +152,20 @@ Widget build(BuildContext context){
                       tooltip: "add to watchlist",
                       color: Colors.red,
                       onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>WatchlistScreen())
+                    _addToWatchlist(context, movie);
+                  
                         
-                );
+                
                       },
 
                       ),
                       IconButton(
                          icon: Icon(Icons.check),
                           onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>WatchedScreen())
-                );
+                       _addToWatched(context, movie);
+                    
+
+                
                       },
                          )
                   ],
@@ -179,3 +183,39 @@ Widget build(BuildContext context){
 
 }
 }
+Future<void> _addToWatchlist(BuildContext context,Movie movie) async {
+  try{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> watchlistMovies = prefs.getStringList('watchlist') ?? [];
+    
+     watchlistMovies.add(movie.id.toString());
+    print('Added ${movie.title} to watchlist');
+    SharedPrefHelper.addToWatchlist(movie);
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('Added ${movie.title} to watchlist')),
+    );
+}catch(e){
+   print('Error adding ${movie.title} to watchlist: $e');
+   ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error adding ${movie.title} to watchlist')),
+    );
+}
+  }
+
+  Future<void> _addToWatched(BuildContext context,Movie movie) async {
+    try{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> watchedMovies = prefs.getStringList('watched') ?? [];
+     watchedMovies.add(movie.id.toString()); 
+   
+     SharedPrefHelper.addToWatched(movie);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Added ${movie.title} to watched')),
+    );
+  }catch(e){
+     print('Error adding ${movie.title} to watched: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error adding ${movie.title} to watched')),
+    );
+  }
+  }

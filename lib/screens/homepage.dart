@@ -13,6 +13,7 @@ import 'package:assignment/screens/watchlist.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -106,7 +107,9 @@ void initState(){
                             child: Text(snapshot.error.toString()),
                           );
                         }else if(snapshot.hasData){
-                          return  NewMoviesSlider(snapshot:snapshot,);
+                          return  NewMoviesSlider(snapshot:snapshot,
+                        
+                          );
                         }else{
                           return const Center(child: CircularProgressIndicator());
                         }
@@ -223,6 +226,7 @@ void initState(){
     );
   }
 }
+ 
 
 
   

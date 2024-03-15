@@ -1,10 +1,15 @@
+import 'package:assignment/screens/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatelessWidget {
   const Signup({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController usernameController=TextEditingController();
+    TextEditingController passwordController=TextEditingController();
+    TextEditingController emailController=TextEditingController();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -39,7 +44,9 @@ class Signup extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     TextField(
+                      controller: usernameController,
                       decoration: InputDecoration(
+                        
                           hintText: "Username",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
@@ -50,6 +57,7 @@ class Signup extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           hintText: "Email",
                           border: OutlineInputBorder(
@@ -61,7 +69,9 @@ class Signup extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
+                        
                         hintText: "Password",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
@@ -74,6 +84,7 @@ class Signup extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                         hintText: "Confirm Password",
                         border: OutlineInputBorder(
@@ -90,7 +101,18 @@ class Signup extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                    SharedPreferences prefs= await SharedPreferences.getInstance();
+                    await prefs.setString('username', usernameController.text);
+                    await prefs.setString('password',passwordController.text);
+                    await prefs.setString('email', emailController.text);
+                    Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => Homepage(), // Navigate to HomeScreen
+              ),
+            );
+                    },
                     child: const Text(
                       "Sign up",
                       style: TextStyle(fontSize: 20),

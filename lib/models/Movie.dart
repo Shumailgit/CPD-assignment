@@ -35,5 +35,17 @@ factory Movie.fromJson(Map<String, dynamic>json){
     
     );
 }
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "original_title": originalTitle,
+      "backdrop_path": backDropPath,
+      "overview": overview,
+      "poster_path": posterPath,
+      "release_date": releaseDate,
+      "vote_average": voteAverage,
+      "id": id,
+    };
+  }
 }
 

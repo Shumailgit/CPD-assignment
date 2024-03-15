@@ -1,9 +1,30 @@
 import 'package:assignment/api/constants.dart';
+import 'package:assignment/models/Movie.dart';
 import 'package:assignment/screens/details.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+class SharedPrefHelper {
+  static const String watchedKey = 'watched';
+  static const String watchlistKey = 'watchlist';
 
+  // Function to add a movie to the watched list in SharedPreferences
+  static Future<void> addToWatched(Movie movie) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> watchedList = prefs.getStringList(watchedKey) ?? [];
+    watchedList.add(movie.id.toString()); // Assuming movie id is used as unique identifier
+    await prefs.setStringList(watchedKey, watchedList);
+  }
+
+  // Function to add a movie to the watchlist in SharedPreferences
+  static Future<void> addToWatchlist(Movie movie) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> watchlist = prefs.getStringList(watchlistKey) ?? [];
+    watchlist.add(movie.id.toString()); // Assuming movie id is used as unique identifier
+    await prefs.setStringList(watchlistKey, watchlist);
+  }
+}
 class NewMoviesSlider extends StatelessWidget {
   const NewMoviesSlider({
     super.key, required this.snapshot,
@@ -57,3 +78,10 @@ final AsyncSnapshot snapshot;
     );
   }
 }
+void onPressedAddToWatchlist(BuildContext context, Movie movie) {
+    SharedPrefHelper.addToWatched(movie);
+    SharedPrefHelper.addToWatchlist(movie);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Added ${movie.title} to watchlist and watched')),
+    );
+  }

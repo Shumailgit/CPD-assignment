@@ -1,13 +1,18 @@
 import 'package:assignment/screens/homepage.dart';
 import 'package:assignment/screens/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Login extends StatelessWidget {
   const Login({Key? key});
 
   @override
+  
   Widget build(BuildContext context) {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController=TextEditingController();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -17,8 +22,9 @@ class Login extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _header(context),
-              _inputField(context),
-              _forgotPassword(context),
+              _inputField(context,usernameController,passwordController),
+              
+            
               _signup(context),
             ],
           ),
@@ -39,11 +45,13 @@ class Login extends StatelessWidget {
     );
   }
 
-  Widget _inputField(context) {
+  Widget _inputField(BuildContext context,TextEditingController usernameController, TextEditingController passwordController) {
+  
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
+          controller: usernameController,
           decoration: InputDecoration(
               hintText: "Username",
               border: OutlineInputBorder(
@@ -55,6 +63,7 @@ class Login extends StatelessWidget {
         ),
         SizedBox(height: 10),
         TextField(
+          controller: passwordController,
           decoration: InputDecoration(
             hintText: "Password",
             border: OutlineInputBorder(
@@ -68,15 +77,19 @@ class Login extends StatelessWidget {
         ),
         SizedBox(height: 10),
         ElevatedButton(
-          onPressed: () {
-            // Perform login operation
-            // If login successful, navigate to HomeScreen
+          onPressed: () async{
+            bool authentication=await authenticate(usernameController.text, passwordController.text);
+            if(authentication){          
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => Homepage(), // Navigate to HomeScreen
               ),
             );
+            }else {
+              _showErrorMessage(context,'Incorrect username or password');
+            }
+          
           },
           style: ElevatedButton.styleFrom(
             shape: StadiumBorder(),
@@ -92,15 +105,7 @@ class Login extends StatelessWidget {
     );
   }
 
-  Widget _forgotPassword(context) {
-    return TextButton(
-      onPressed: () {},
-      child: Text(
-        "Forgot password?",
-        style: TextStyle(color: Colors.purple),
-      ),
-    );
-  }
+ 
 
   Widget _signup(context) {
     return Row(
@@ -125,3 +130,18 @@ class Login extends StatelessWidget {
     );
   }
 }
+ Future<bool> authenticate(String username, String password) async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? storedUsername = prefs.getString('username');
+  String? storedPassword = prefs.getString('password');
+
+  if (storedUsername == username && storedPassword == password) {
+    return true; // Authentication successful
+  } else {
+    return false; // Authentication failed
+  }
+ }
+
+  void _showErrorMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
